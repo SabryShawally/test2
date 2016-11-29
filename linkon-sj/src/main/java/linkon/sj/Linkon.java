@@ -5,12 +5,20 @@ import se.linkon.petra.commoncomplexelements.data.v4_6.ClientInformation;
 import se.linkon.petra.commonelements.data.v4_6.LanguageCodeType;
 import se.linkon.petra.commonelements.data.v4_6.PassengerCategoryType;
 import se.linkon.petra.commonelements.data.v4_6.TransportSegmentsOriginType;
+import se.linkon.petra.gtssales.booktransport.data.v1_17.*;
 import se.linkon.petra.gtssales.journeyadvicepricequotes.overview.data.v1_17.GetJourneyAdviceOverviewPriceQuotesDescription;
 import se.linkon.petra.gtssales.journeyadvicepricequotes.overview.data.v1_17.GetJourneyAdviceOverviewPriceQuotesSpecification;
 import se.linkon.petra.gtssales.journeyadvicepricequotes.overview.data.v1_17.JourneyAdviceDescriptionType;
+import se.linkon.petra.gtssales.journeyadvicepricequotes.shared.data.v1_17.ConsumerSpecificationType;
 import se.linkon.petra.gtssales.journeyadvicepricequotes.shared.data.v1_17.*;
+import se.linkon.petra.gtssales.journeyadvicepricequotes.shared.data.v1_17.ItinerarySpecificationType;
+import se.linkon.petra.gtssales.journeyadvicepricequotes.shared.data.v1_17.ItinerarySpecificationsType;
+import se.linkon.petra.gtssales.journeyadvicepricequotes.shared.data.v1_17.SegmentSpecificationType;
+import se.linkon.petra.gtssales.journeyadvicepricequotes.shared.data.v1_17.SegmentSpecificationsType;
 import se.linkon.petra.gtssales.shared.data.v1_17.LocationType;
 import se.linkon.petra.gtssales.shared.data.v1_17.TransportInformationsType;
+import se.linkon.petra.order.orderstorage.createorder.data.v1_10.CreateOrderRequest;
+import se.linkon.petra.order.orderstorage.createorder.data.v1_10.CreateOrderResponse;
 import se.linkon.petra.timetable.data.v2_7.*;
 
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -29,11 +37,68 @@ public class Linkon {
 
         GetJourneyAdviceOverviewPriceQuotesDescription priceQuotesDescription = linkon.getPricedItem(journeyAdvice);
 
-        JourneyAdviceDescriptionType type
+        JourneyAdviceDescriptionType journey
                 = priceQuotesDescription.getJourneyAdviceDescriptions().getJourneyAdviceDescription().get(0);
 
+        linkon.createOrder(journey);
+    }
 
+    private void createOrder(JourneyAdviceDescriptionType journey) throws Exception {
+        CreateOrderRequest request = new CreateOrderRequest();
+        CreateOrderResponse response
+                = webService.getOrderStorageService().createOrder(request, getClientInformation());
 
+        System.out.println("Order created with order lock id = " + response.getOrderLockId());
+
+        BookItinerarySpecification bookRequest = new BookItinerarySpecification();
+        bookRequest.setOrderLockId(response.getOrderLockId());
+        bookRequest.setSalesOrderId(response.getSalesOrderId());
+
+        ExternalReferenceType externalReferenceType = new ExternalReferenceType();
+        externalReferenceType.setExternalReferenceId("GoEuroTest");
+        externalReferenceType.setExternalSystem("GoEuro");
+        bookRequest.setExternalReference(externalReferenceType);
+
+        ItineraryServiceSpecificationsType mappedItinerariesList = new ItineraryServiceSpecificationsType();
+        ItineraryServiceSpecificationType mappedItinerary = new ItineraryServiceSpecificationType();
+        mappedItinerary.setJourneyConnectionReference(journey.getJourneyConnectionReference());
+
+        se.linkon.petra.gtssales.booktransport.data.v1_17.ConsumerSpecificationType consumerSpecificationType
+                = new se.linkon.petra.gtssales.booktransport.data.v1_17.ConsumerSpecificationType();
+        PassengerCategoryType categoryType = new PassengerCategoryType();
+        categoryType.setValue("VU");
+        categoryType.setPlaintext("Adult");
+        consumerSpecificationType.setPassengerCategory(categoryType);
+
+        mappedItinerary.setConsumerSpecification(consumerSpecificationType);
+
+        se.linkon.petra.gtssales.booktransport.data.v1_17.ItinerarySpecificationsType itinerarySpecificationsList
+                = new se.linkon.petra.gtssales.booktransport.data.v1_17.ItinerarySpecificationsType();
+
+        se.linkon.petra.gtssales.booktransport.data.v1_17.ItinerarySpecificationType itinerarySpecification
+                = new se.linkon.petra.gtssales.booktransport.data.v1_17.ItinerarySpecificationType();
+        itinerarySpecification.setItineraryReference(journey.getJourneyConnectionReference());
+
+        se.linkon.petra.gtssales.booktransport.data.v1_17.SegmentSpecificationsType segmentsList
+                = new se.linkon.petra.gtssales.booktransport.data.v1_17.SegmentSpecificationsType();
+
+        se.linkon.petra.gtssales.booktransport.data.v1_17.SegmentSpecificationType mappedSegment
+                = new se.linkon.petra.gtssales.booktransport.data.v1_17.SegmentSpecificationType();
+
+        segmentsList.getSegmentSpecification().add(mappedSegment);
+
+        itinerarySpecification.setSegmentSpecifications(new se.linkon.petra.gtssales.booktransport.data.v1_17.SegmentSpecificationsType());
+
+        itinerarySpecificationsList.getItinerarySpecification().add(itinerarySpecification);
+
+//        itinerarySpecification.setItineraryServiceSpecifications(new ItineraryServiceSpecificationsType());
+        mappedItinerary.setItinerarySpecifications(itinerarySpecificationsList);
+
+        mappedItinerariesList.getItineraryServiceSpecification().add(mappedItinerary);
+        bookRequest.setItineraryServiceSpecifications(mappedItinerariesList);
+
+        BookItineraryDescription description
+                = webService.getGtsSalesService().bookItinerary(bookRequest, getClientInformation());
     }
 
     private JourneyAdvice getJourneyAdvice() throws Exception {
