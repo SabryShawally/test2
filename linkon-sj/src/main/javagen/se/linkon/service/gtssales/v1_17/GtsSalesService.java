@@ -136,14 +136,14 @@ public interface GtsSalesService {
      * The operation changes departure, if possible, according to the request.
      *             
      */
-    @WebMethod
-    @WebResult(name = "ChangeDepartureDescription", targetNamespace = "http://petra.linkon.se/gtssales/changedeparture/data/v1_17", partName = "result")
-    public se.linkon.petra.gtssales.changedeparture.data.v1_17.ChangeDepartureDescription changeDeparture(
-        @WebParam(partName = "parameters", name = "ChangeDepartureSpecification", targetNamespace = "http://petra.linkon.se/gtssales/changedeparture/data/v1_17")
-        se.linkon.petra.gtssales.changedeparture.data.v1_17.ChangeDepartureSpecification parameters,
-        @WebParam(partName = "clientInformationHeader", name = "ClientInformation", targetNamespace = "http://petra.linkon.se/commoncomplexelements/data/v4_6")
-        se.linkon.petra.commoncomplexelements.data.v4_6.ClientInformation clientInformationHeader
-    ) throws GtsSalesException;
+//    @WebMethod
+//    @WebResult(name = "ChangeDepartureDescription", targetNamespace = "http://petra.linkon.se/gtssales/changedeparture/data/v1_17", partName = "result")
+//    public se.linkon.petra.gtssales.changedeparture.data.v1_17.ChangeDepartureDescription changeDeparture(
+//        @WebParam(partName = "parameters", name = "ChangeDepartureSpecification", targetNamespace = "http://petra.linkon.se/gtssales/changedeparture/data/v1_17")
+//        se.linkon.petra.gtssales.changedeparture.data.v1_17.ChangeDepartureSpecification parameters,
+//        @WebParam(partName = "clientInformationHeader", name = "ClientInformation", targetNamespace = "http://petra.linkon.se/commoncomplexelements/data/v4_6")
+//        se.linkon.petra.commoncomplexelements.data.v4_6.ClientInformation clientInformationHeader
+//    ) throws GtsSalesException;
 
     /**
      * The operation returns an overview journey advice price quote using sales
