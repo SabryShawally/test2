@@ -1,0 +1,127 @@
+<?xml version="1.0" ?><definitions xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:tns="http://service.linkon.se/location/v1_5" xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://service.linkon.se/location/v1_5">
+    <import location="http://r.petra2services.linkon.se/location/1_5/LocationService?wsdl=WSLocationServiceInterface.wsdl" namespace="http://service.linkon.se/location/v1_5">
+    </import>
+    <binding name="WSLocation-binding" type="tns:Location-service">
+        <wsp:PolicyReference URI="#UsernameToken"></wsp:PolicyReference>
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"></soap:binding>
+        <operation name="findAddresses">
+            <documentation>Find addresses for use in taxi booking.      </documentation>
+            <soap:operation soapAction=""></soap:operation>
+            <input>
+                <soap:header message="tns:WSLocation_findAddressesRequest" part="clientInformationHeader" use="literal">
+                </soap:header>
+                <soap:body parts="parameters" use="literal"></soap:body>
+            </input>
+            <output>
+                <soap:header message="tns:ServerInformation" part="serverInformationHeader" use="literal">
+                </soap:header>
+                <soap:body use="literal"></soap:body>
+            </output>
+            <fault name="LocationException">
+                <soap:fault name="LocationException" use="literal"></soap:fault>
+            </fault>
+        </operation>
+        <operation name="findLocations">
+            <documentation>Find locations (i.e. stations).</documentation>
+            <soap:operation soapAction=""></soap:operation>
+            <input>
+                <soap:header message="tns:WSLocation_findLocationRequest" part="clientInformationHeader" use="literal">
+                </soap:header>
+                <soap:body parts="parameters" use="literal"></soap:body>
+            </input>
+            <output>
+                <soap:header message="tns:ServerInformation" part="serverInformationHeader" use="literal">
+                </soap:header>
+                <soap:body use="literal"></soap:body>
+            </output>
+            <fault name="LocationException">
+                <soap:fault name="LocationException" use="literal"></soap:fault>
+            </fault>
+        </operation>
+        <operation name="findZoneLocations">
+            <documentation>Method to find all the locations within a zone. The zone to find locations for is specified with a location within the zone.</documentation>
+            <soap:operation soapAction=""></soap:operation>
+            <input>
+                <soap:header message="tns:WSLocation_findZoneLocationsRequest" part="clientInformationHeader" use="literal">
+                </soap:header>
+                <soap:body parts="parameters" use="literal"></soap:body>
+            </input>
+            <output>
+                <soap:header message="tns:ServerInformation" part="serverInformationHeader" use="literal">
+                </soap:header>
+                <soap:body use="literal"></soap:body>
+            </output>
+            <fault name="LocationException">
+                <soap:fault name="LocationException" use="literal"></soap:fault>
+            </fault>
+        </operation>
+        <operation name="getFrequentLocations">
+            <documentation>Get a short list of frequent used locations.</documentation>
+            <soap:operation soapAction=""></soap:operation>
+            <input>
+                <soap:header message="tns:WSLocation_getFrequentLocationRequest" part="clientInformationHeader" use="literal">
+                </soap:header>
+                <soap:body parts="parameters" use="literal"></soap:body>
+            </input>
+            <output>
+                <soap:header message="tns:ServerInformation" part="serverInformationHeader" use="literal">
+                </soap:header>
+                <soap:body use="literal"></soap:body>
+            </output>
+            <fault name="LocationException">
+                <soap:fault name="LocationException" use="literal"></soap:fault>
+            </fault>
+        </operation>
+        <operation name="getValidCodes">
+            <documentation>The operation returns the valid (relevant) code lists for this service.</documentation>
+            <soap:operation soapAction=""></soap:operation>
+            <input>
+                <soap:header message="tns:WSLocation_getValidCodeRequest" part="clientInformationHeader" use="literal">
+                </soap:header>
+                <soap:body parts="parameters" use="literal"></soap:body>
+            </input>
+            <output>
+                <soap:header message="tns:ServerInformation" part="serverInformationHeader" use="literal">
+                </soap:header>
+                <soap:body use="literal"></soap:body>
+            </output>
+            <fault name="LocationException">
+                <soap:fault name="LocationException" use="literal"></soap:fault>
+            </fault>
+        </operation>
+        <operation name="getLocationsURL">
+            <documentation>Method to retrieve the URLs of the valid AllLocations xml file and the SearchableLocations xml file.</documentation>
+            <soap:operation soapAction=""></soap:operation>
+            <input>
+                <soap:header message="tns:WSLocation_getLocationsURLRequest" part="clientInformationHeader" use="literal">
+                </soap:header>
+                <soap:body parts="parameters" use="literal"></soap:body>
+            </input>
+            <output>
+                <soap:header message="tns:ServerInformation" part="serverInformationHeader" use="literal">
+                </soap:header>
+                <soap:body use="literal"></soap:body>
+            </output>
+            <fault name="LocationException">
+                <soap:fault name="LocationException" use="literal"></soap:fault>
+            </fault>
+        </operation>
+    </binding>
+    <service name="WSLocationService">
+        <port binding="tns:WSLocation-binding" name="WSLocation-port">
+            <soap:address location="http://r.petra2services.linkon.se/location/1_5/LocationService"></soap:address>
+        </port>
+    </service>
+    <wsp:Policy wsu:Id="UsernameToken">
+        <sp:SupportingTokens>
+            <wsp:Policy>
+                <sp:UsernameToken sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
+                    <wsp:Policy>
+                        <sp:WssUsernameToken10></sp:WssUsernameToken10>
+                    </wsp:Policy>
+                </sp:UsernameToken>
+            </wsp:Policy>
+        </sp:SupportingTokens>
+    </wsp:Policy>
+</definitions>
+        0

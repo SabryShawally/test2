@@ -7,7 +7,10 @@
     <groupId>com.goeuro.pi</groupId>
     <artifactId>config-management</artifactId>
     <version>latest-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <modules>
+        <module>linkon-sj</module>
+    </modules>
+    <packaging>pom</packaging>
 
     <dependencies>
         <dependency>
@@ -19,6 +22,11 @@
             <groupId>org.cfg4j</groupId>
             <artifactId>cfg4j-git</artifactId>
             <version>4.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+            <version>1.4.2.RELEASE</version>
         </dependency>
     </dependencies>
 

@@ -1,0 +1,74 @@
+<?xml version="1.0" ?><definitions xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:tns="http://service.linkon.se/timetable/v2_7" xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://service.linkon.se/timetable/v2_7">
+    <import location="http://r.petra2services.linkon.se/timetable/2_7/TimetableService?wsdl=WSTimetableServiceInterface.wsdl" namespace="http://service.linkon.se/timetable/v2_7">
+    </import>
+    <binding name="WSTimetable-binding" type="tns:Timetable-service">
+        <wsp:PolicyReference URI="#UsernameToken"></wsp:PolicyReference>
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"></soap:binding>
+        <operation name="getTimetable">
+            <soap:operation soapAction=""></soap:operation>
+            <input>
+                <soap:header message="tns:WSTimetable_timetableRequest" part="clientInformationHeader" use="literal">
+                </soap:header>
+                <soap:body parts="parameters" use="literal"></soap:body>
+            </input>
+            <output>
+                <soap:header message="tns:ServerInformation" part="serverInformationHeader" use="literal">
+                </soap:header>
+                <soap:body use="literal"></soap:body>
+            </output>
+            <fault name="TimetableException">
+                <soap:fault name="TimetableException" use="literal"></soap:fault>
+            </fault>
+        </operation>
+        <operation name="getAcceptableTravelMethods">
+            <soap:operation soapAction=""></soap:operation>
+            <input>
+                <soap:header message="tns:WSTimetable_acceptableTravelMethodsRequest" part="clientInformationHeader" use="literal">
+                </soap:header>
+                <soap:body parts="parameters" use="literal"></soap:body>
+            </input>
+            <output>
+                <soap:header message="tns:ServerInformation" part="serverInformationHeader" use="literal">
+                </soap:header>
+                <soap:body use="literal"></soap:body>
+            </output>
+            <fault name="TimetableException">
+                <soap:fault name="TimetableException" use="literal"></soap:fault>
+            </fault>
+        </operation>
+        <operation name="getValidCodes">
+            <documentation>The operation returns the valid (relevant) code lists for this service.</documentation>
+            <soap:operation soapAction=""></soap:operation>
+            <input>
+                <soap:header message="tns:WSTimetable_getValidCodeRequest" part="clientInformationHeader" use="literal">
+                </soap:header>
+                <soap:body parts="parameters" use="literal"></soap:body>
+            </input>
+            <output>
+                <soap:header message="tns:ServerInformation" part="serverInformationHeader" use="literal">
+                </soap:header>
+                <soap:body use="literal"></soap:body>
+            </output>
+            <fault name="TimetableException">
+                <soap:fault name="TimetableException" use="literal"></soap:fault>
+            </fault>
+        </operation>
+    </binding>
+    <service name="WSTimetableService">
+        <port binding="tns:WSTimetable-binding" name="WSTimetable-port">
+            <soap:address location="http://r.petra2services.linkon.se/timetable/2_7/TimetableService"></soap:address>
+        </port>
+    </service>
+    <wsp:Policy wsu:Id="UsernameToken">
+        <sp:SupportingTokens>
+            <wsp:Policy>
+                <sp:UsernameToken sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
+                    <wsp:Policy>
+                        <sp:WssUsernameToken10></sp:WssUsernameToken10>
+                    </wsp:Policy>
+                </sp:UsernameToken>
+            </wsp:Policy>
+        </sp:SupportingTokens>
+    </wsp:Policy>
+</definitions>
+        0

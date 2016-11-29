@@ -1,0 +1,23 @@
+deutscheBahn:
+  username: 'Sabry'
+  password: 'Shawally'
+  #List of allowed connections, anything not here won't be searched
+  allowedConnections:
+    - fromCity: 'Berlin'
+      fromCountry: 'Germany'
+      toCity: 'Vienna'
+      toCountry: 'Austria'
+    - fromCountry: 'Germany'
+      toCountry: 'Switzerland'
+  #Disallowed takes precedence over allowed, it's checked first
+  disAllowedConnections:
+    - fromCity: 'Hamburg'
+      toCity: 'Basel'
+  #List of allowed fare types
+  allowedFareTypes:
+    - 'NP_1'
+    - 'SP_1'
+  onSiteCriteria:
+    fareTypes:
+     - 'NP_1'
+     - 'NP_2'

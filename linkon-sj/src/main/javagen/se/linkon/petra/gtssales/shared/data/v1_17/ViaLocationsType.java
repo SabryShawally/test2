@@ -1,0 +1,83 @@
+
+package se.linkon.petra.gtssales.shared.data.v1_17;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
+
+/**
+ * Specifies via locations.
+ * 
+ * <p>Java class for ViaLocationsType complex type.
+ * 
+ * <p>The following schema fragment specifies the expected content contained within this class.
+ * 
+ * <pre>
+ * &lt;complexType name="ViaLocationsType"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="ViaLocation" type="{http://petra.linkon.se/gtssales/shared/data/v1_17}LocationType" maxOccurs="unbounded"/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
+ * </pre>
+ * 
+ * 
+ */
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "ViaLocationsType", propOrder = {
+    "viaLocation"
+})
+public class ViaLocationsType
+    implements Serializable
+{
+
+    private final static long serialVersionUID = 1234L;
+    @XmlElement(name = "ViaLocation", required = true)
+    protected List<LocationType> viaLocation;
+
+    /**
+     * Gets the value of the viaLocation property.
+     * 
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the viaLocation property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getViaLocation().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link LocationType }
+     * 
+     * 
+     */
+    public List<LocationType> getViaLocation() {
+        if (viaLocation == null) {
+            viaLocation = new ArrayList<LocationType>();
+        }
+        return this.viaLocation;
+    }
+
+    public boolean isSetViaLocation() {
+        return ((this.viaLocation!= null)&&(!this.viaLocation.isEmpty()));
+    }
+
+    public void unsetViaLocation() {
+        this.viaLocation = null;
+    }
+
+}
